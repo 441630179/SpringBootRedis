@@ -11,13 +11,6 @@ spring:
         min-idle: 0
   thymeleaf:
     cache: false
-  activemq:
-    user: admin
-    password: admin
-    broker-url: tcp://127.0.0.1:61616
-    pool:
-      max-connections: 10
-      enabled: true
 
 server:
   port: 8081
