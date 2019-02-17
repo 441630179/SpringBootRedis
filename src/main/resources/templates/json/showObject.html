@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Show Object</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <table>
+        <tbody>
+            <tr>
+                <th>编号</th>
+                <th>联行号</th>
+                <th>名称</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td th:text="${bank.bankNo}"></td>
+                <td th:text="${bank.bankName}"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</body>
+</html>

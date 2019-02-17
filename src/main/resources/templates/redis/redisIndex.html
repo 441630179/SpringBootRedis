@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>redis index</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <table>
+        <tbody>
+            <tr>
+                <td>String</td>
+                <td><a th:href="@{/redis/redisString}">String 类型</a></td>
+            </tr>
+            <tr>
+                <td>Hash</td>
+                <td><a  th:href="@{/redis/redisHash}">Hash 类型</a></td>
+            </tr>
+            <tr>
+                <td>List</td>
+                <td><a th:href="@{/redis/redisList}">List 类型</a></td>
+            </tr>
+            <tr>
+                <td>Set</td>
+                <td><a th:href="@{/redis/redisSet}">Set 类型</a></td>
+            </tr>
+
+        </tbody>
+
+    </table>
+</body>
+</html>

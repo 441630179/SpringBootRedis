@@ -9,10 +9,39 @@ spring:
         max-idle: 8
         max-wait: -1ms
         min-idle: 0
+
+ # thymeleaf 参数
   thymeleaf:
     cache: false
+
+ #activeMq参数
+  activemq:
+    user: admin
+    password: admin
+    broker-url: tcp://127.0.0.1:61616
+    pool:
+      max-connections: 10
+      enabled: true
+
+#数据库连接参数
+  datasource:
+    username: root
+    password: Tpw923223***
+    url: jdbc:mysql://127.0.0.1:3306/study?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
 
 server:
   port: 8081
   servlet:
     context-path: /SpringBoot
+
+#logback参数
+logging:
+  config: classpath:logback-spring.xml
+
+
+#分页插件参数
+pagehelper:
+  params: countSql
+  reasonable: true
+  support-methods-arguments: true

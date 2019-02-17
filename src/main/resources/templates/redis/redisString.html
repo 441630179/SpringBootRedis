@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>redisStringAdd</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<form th:action="@{/redis/redisStringAdd}" method="post">
+    <table>
+        <tbody>
+            <tr>
+                <td>key</td>
+                <td><input type="text" name="key" id="key" ></td>
+            </tr>
+            <tr>
+                <td>value</td>
+                <td><input type="text" name="value" id="value" ></td>
+            </tr>
+            <tr>
+                <td><input type="submit" th:value="提交"></td>
+                <td><input type="reset" th:value="重置"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</form>
+</body>
+</html>

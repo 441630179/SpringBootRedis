@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Study index</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <table>
+        <tbody th:each="entry,entryStat:${bankMap.entrySet()}">
+                <tr th:if="${entryStat.index == 0}">
+                    <th>编号</th>
+                    <th>联行号</th>
+                    <th>名称</th>
+                </tr>
+                <tr th:each="bank,bankstat:${entry.value}">
+                    <th th:text="${bankstat.index}"></th>
+                    <th th:text="${bank.bankNo}"></th>
+                    <th th:text="${bank.bankName}"></th>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</body>
+</html>

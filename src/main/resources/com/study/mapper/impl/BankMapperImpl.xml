@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.mapper.impl.BankMapperImpl" >
+  <resultMap id="BaseResultMap" type="com.study.po.Bank" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bank_no" property="bankNo" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bank_no, bank_name
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BANK
+  </select>
+
+  <select id="selectBankByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from T_BANK
+    where 1=1
+    <if test="bankName != null and bankName !=''" >
+      and bank_name like '%${bankName}%'
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,25 @@
+.seeRecord {
+    color: dodgerblue;
+    margin-right: 5px;
+
+}
+.update {
+    color: #333;
+    margin-left: 5px;
+}
+.remove {
+    color: red;
+    margin-left: 5px;
+}
+
+.alert {
+    padding: 0 14px;
+    margin-bottom: 0;
+    display: inline-block;
+}
+
+span.form_required{
+    color:#ff0000;
+    font-size:18px;
+    vertical-align:middle;
+}

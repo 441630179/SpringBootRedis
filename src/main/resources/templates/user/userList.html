@@ -1,0 +1,486 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>用户管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap-table.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap-editable.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap-datetimepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery/jquery.growl.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/jquery/jquery.validate.js}"></script>
+    <script th:src="@{/js/jquery/messages_zh.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap.js}"></script>
+    <!--bootstraptable-->
+    <script th:src="@{/js/bootstrap/bootstrap-table.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-table-zh-CN.js}"></script>
+    <!--日期时间控件-->
+    <script th:src="@{/js/bootstrap/bootstrap-datetimepicker.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-datetimepicker.zh-CN.js}"></script>
+
+    <!--bootstraptable行类编辑-->
+    <script th:src="@{/js/bootstrap/bootstrap-editable.min.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-table-editable.min.js}"></script>
+    <!--bootstrap导出-->
+    <script th:src="@{/js/export/xlsx.core.min.js}"></script>
+    <script th:src="@{/js/export/FileSaver.min.js}"></script>
+    <script th:src="@{/js/export/tableExport.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-table-export.min.js}"></script>
+    <!--提示-->
+    <script th:src="@{/js/jquery/jquery.growl.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+    <!--自动补全 -->
+    <script th:src="@{/js/bootstrap/bootstrap3-typeahead.min.js}"></script>
+</head>
+<script>
+
+    $(function () {
+
+        $('#userTable').bootstrapTable({
+                onEditableSave: function (field, row, oldValue, $el) {
+                    $.ajax({
+                        type: "post",
+                        url: "/SpringBoot/user/userUpdate",
+                        data: row,
+                        dataType: 'json',
+                        success: function (data) {
+                            var returnCode = data.returnCode;
+                            var returnMsg = data.returnMsg;
+                            if (returnCode = "000000") {
+                                $.growl.notice({title: "提示", message: "修改成功!"});
+                                $("#modal-update").modal("hide");
+                                $('#userTable').bootstrapTable('refresh')
+                            }
+                        },
+                        error: function (err) {
+                            if (data.status == '405') {
+
+                                window.location.reload();
+                            }
+                            $.growl.error({title: "失败", message: "网络异常，请稍后再试!"});
+                        }
+
+                    });
+                }
+            }
+        );
+
+        //加载查看页面
+        $("#modal-see").modal({"show":false,"remote":"/SpringBoot/user/userSeeHtml"});
+        //加载新增页面
+        $("#modal-add").modal({"show":false,"remote":"/SpringBoot/user/userAddHtml"});
+
+        //新增按钮
+        $("#addButton").click(function () {
+            $("#userAddForm :input").val('');
+            $("#modal-add").modal("show");
+        });
+
+        //用户修改
+        $("#updateConfirm").click(function () {
+            var validateObj = $("#userUpdateForm").validate();
+            if(validateObj.form()!=true){
+                $.growl.warning({title: "警告", message: "请检查输入记录" });
+                return ;
+            }
+            var param = $("#userUpdateForm").serialize();
+            $.ajax({
+                type: "post",
+                url: "/SpringBoot/user/userUpdate",
+                data: param,
+                success: function (data) {
+                    var returnCode = data.returnCode;
+                    var returnMsg = data.returnMsg;
+                    if (returnCode = "000000") {
+                        $.growl.notice({title: "提示", message: "修改成功!" });
+                        $("#modal-update").modal("hide");
+                        $('#userTable').bootstrapTable('refresh')
+                    }
+                },
+                error: function (err) {
+                    if (data.status == '405') {
+
+                        window.location.reload();
+                    }
+                    $.growl.error({title: "失败", message: "网络异常，请稍后再试!" });
+                }
+
+            });
+        });
+
+
+        //用户删除
+        $("#userDelConfirm").click(function () {
+            var param = $("#userDelForm").serialize();
+            $.ajax({
+                type: "post",
+                url: "/SpringBoot/user/userDel",
+                data: param,
+                success: function (data) {
+                    var returnCode = data.returnCode;
+                    var returnMsg = data.returnMsg;
+                    if (returnCode = "000000") {
+                        $.growl.notice({title: "提示", message: "删除成功!" });
+                        $("#modal-delete").modal("hide");
+                        $('#userTable').bootstrapTable('refresh')
+                    }
+                },
+                error: function (err) {
+                    if (data.status == '405') {
+
+                        window.location.reload();
+                    }
+                    $.growl.error({title: "失败", message: "网络异常，请稍后再试!" });
+                }
+
+            });
+        });
+
+        //批量删除
+        $("#userBathchDelConfirm").click(function () {
+            var rows = $("#userTable").bootstrapTable('getSelections');
+            if (rows.length < 1) {
+                $.growl.warning({title: "警告", message: "请选择删除记录!" });
+                return;
+            }
+            var ids='';
+            for(var i=0;i<rows.length;i++){
+                var row = rows[i];
+                ids+=row.id+",";
+            }
+            ids = ids.substring(0, ids.length - 1);
+
+            $.ajax({
+                type: "post",
+                url: "/SpringBoot/user/userBatchDel",
+                data: {'ids':ids},
+                dataType: 'json',
+                success: function (data) {
+                    var returnCode = data.returnCode;
+                    var returnMsg = data.returnMsg;
+                    if (returnCode = "000000") {
+                        $.growl.notice({title: "提示", message: "批量删除成功!" });
+                        $("#modal-delete").modal("hide");
+                        $('#userTable').bootstrapTable('refresh')
+                    }
+                },
+                error: function (err) {
+                    if (data.status == '405') {
+
+                        window.location.reload();
+                    }
+                    $.growl.error({title: "失败", message: "网络异常，请稍后再试!" });
+                }
+
+            });
+        });
+
+
+        //用户查询
+        $("#queryBtn").click(function () {
+            var userName = $("#queryUserName").val();
+            var idNo = $("#queryIdNo").val();
+            var idType = $("#queryIdType").val();
+            var userEmail = $("#queryUserEmail").val();
+            var userPhone = $("#queryUserPhone").val();
+            $('#userTable').bootstrapTable('refresh',{
+                url:'/SpringBoot/user/userList',
+                query:{'userName':userName,'idNo':idNo,'idType':idType,'userEmail':userEmail,'userPhone':userPhone},
+                silent:true
+            })
+        })
+
+    })
+
+
+
+
+
+    function formatIdType(value, row, index) {
+        var idTypeValue="";
+        if(value == 01){
+            idTypeValue = "身份证"
+        }else if(value == 02){
+            idTypeValue = "护照"
+        }else if(value == 03){
+            idTypeValue = "港澳通行证"
+        }else{
+            idTypeValue = "其他"
+        }
+        return  idTypeValue;
+    }
+
+    function formatDate (value){
+        if(value.length == 8){
+            return value.substring(0, 4) + "-" + value.substring(4, 6) + "-" + value.substring(6, 8);
+        } else if(value.length == 6){
+            return value.substring(0, 4) + "-" + value.substring(4, 6);
+        } else {
+            return value;
+        }
+    }
+
+    function formatIndex(value, row, index) {
+        var pageSize = $('#userTable').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+        var pageNumber = $('#userTable').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+        return pageSize * (pageNumber - 1) + index + 1;    //返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+
+    }
+
+    function queryParams(params) {
+        var userName = $("#queryUserName").val();
+        var idNo = $("#queryIdNo").val();
+        var idType = $("#queryIdType").val();
+        var userEmail = $("#queryUserEmail").val();
+        var userPhone = $("#queryUserPhone").val();
+        var param = {page: params.pageNumber, size: params.pageSize,'userName':userName,'idNo':idNo,'idType':idType,'userEmail':userEmail,'userPhone':userPhone};
+        return param;
+
+    }
+
+    function actionFormatter(value) {
+        return [
+            '<a class="seeRecord" href="javascript:" title="See Item"><i class="glyphicon glyphicon-search"></i></a>',
+            '<a class="update" href="javascript:" title="Update Item"><i class="glyphicon glyphicon-edit"></i></a>',
+            '<a class="remove" href="javascript:" title="Delete Item"><i class="glyphicon glyphicon-remove-circle"></i></a>'
+
+        ].join('')
+    }
+
+    window.actionEvents = {
+        'click .update': function (e, value, row) {
+            $("#modal-update").modal("show");
+            $("#userUpdateForm input[name=id]").val(row.id);
+            $("#userUpdateForm input[name=userName]").val(row.userName);
+            $("#userUpdateForm input[name=idType]").val(row.idType);
+            $("#userUpdateForm input[name=idNo]").val(row.idNo);
+            $("#userUpdateForm input[name=userEmail]").val(row.userEmail);
+            $("#userUpdateForm input[name=userPhone]").val(row.userPhone);
+        },
+        'click .remove': function (e, value, row) {
+            $("#modal-delete").modal("show");
+            $("#userDelForm input[name=id]").val(row.id);
+        },
+        'click .seeRecord': function (e, value, row) {
+            $("#modal-see").modal("show")
+            $("#userSeeForm input[name=id]").val(row.id);
+            $("#userSeeForm input[name=userName]").val(row.userName);
+            $("#userSeeForm input[name=idType]").val(row.idType);
+            $("#userSeeForm input[name=idNo]").val(row.idNo);
+            $("#userSeeForm input[name=begDate]").val(formatDate(row.begDate));
+            $("#userSeeForm input[name=endDate]").val(formatDate(row.endDate));
+            $("#userSeeForm input[name=userEmail]").val(row.userEmail);
+            $("#userSeeForm input[name=userPhone]").val(row.userPhone);
+            $("#userSeeForm :input").attr("readonly","readonly");
+            $("#userSeeForm :input").attr("disable","disable");
+            $("#modal-see").modal({"show":"true","remote":"/SpringBoot/user/userSeeHtml"});
+        }
+    }
+</script>
+<div id="page-wrapper">
+    <div>
+        <h1 class="page-header">用户管理</h1>
+        <ol class="breadcrumb">
+            <li><a href="javascript:;">SpringBoot Study</a></li>
+            <li><a href="javascript:;">用户查询</a></li>
+            <li class="active">用户查询</li>
+        </ol>
+    </div>
+</div>
+<div class="col-sm-12">
+    <div class="panel-body" style="background: #fff; border-radius: 4px; margin-bottom: 10px;">
+        <form class="form-inline row" id="queryForm">
+            <div class="form-group">
+                <label>用户名称：</label>
+                <input type="text" class="form-control" name="userName" id="queryUserName"
+                                            placeholder="用户名称">
+            </div>
+            <div class="form-group">
+                <label>证件类型：</label>
+                <select class="form-control" name="idType" id="queryIdType">
+                    <option value="">全部</option>
+                    <option th:each="idType:${idTypes}"  th:text="${idType.typeDesc}" th:value="${idType.type}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>证件号码：</label> <input type="text" class="form-control" name="idNo" id="queryIdNo" placeholder="证件号码">
+            </div>
+            <div class="form-group">
+                <label>用户邮箱：</label> <input type="email" class="form-control" name="userEmail" id="queryUserEmail" placeholder="用户邮箱">
+            </div>
+            <div class="form-group">
+                <label>手机号码：</label> <input type="text" class="form-control" name="usePhone"  id="queryUserPhone" placeholder="手机号码">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" id="queryBtn">查询</button>
+                <button type="reset" class="btn btn-primary">重置</button>
+            </div>
+        </form>
+        <div class="clearfix">
+            <div class="space15">
+                <div>
+                    <div id="toolbar" class="btn-group">
+                        <button type="button" class="btn btn-primary"  data-toggle="modal"  id="addButton">
+                            <i></i>添加
+                        </button>
+                        <button type="button" class="btn btn-primary"  data-toggle="modal"  data-target="#modal-batchDelete">
+                            <i></i>批量删除
+                        </button>
+                    </div>
+        <table id="userTable"
+               data-show-refresh="true"
+               data-show-columns="true"
+               data-query-params="queryParams"
+               data-toolbar="#toolbar"
+               data-url="/SpringBoot/user/userList"
+               data-method="post"
+               data-page-size="5"
+               data-page-list="[5, 10, 50, 100]"
+               data-side-pagination="server"
+               data-pagination="true"
+               data-click-to-select="true"
+               data-query-params-type=""
+               data-content-type="application/x-www-form-urlencoded"
+               data-show-export="true"
+               data-export-types="['xlsx']">
+            <thead>
+            <tr>
+                <th data-checkbox="true"></th>
+                <th data-formatter="formatIndex">序号</th>
+                <th data-field="id">用户编号</th>
+                <th data-field="userName" data-editable="true">用户名称</th>
+                <th data-field="idType" data-formatter="formatIdType">证件类型</th>
+                <th data-field="idNo">证件编号</th>
+                <th data-field="userEmail">用户邮箱</th>
+                <th data-field="begDate" data-formatter="formatDate">开始日期</th>
+                <th data-field="endDate" data-formatter="formatDate">结束日期</th>
+                <th data-field="userPhone">用户手机号</th>
+                <th data-field="action"
+                    data-align="center"
+                    data-formatter="actionFormatter"
+                    data-events="actionEvents">操作
+                </th>
+            </tr>
+            </thead>
+        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-update" class="modal fade">
+    <form id="userUpdateForm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">用户修改</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" class="form-control" name="id">
+                    <div class="form-group">
+                        <label><span class="form_required">*</span>用户名称</label>
+                        <input type="text" class="form-control" name="userName" placeholder="用户名称" required>
+                    </div>
+                    <div class="form-group">
+                        <label><span class="form_required">*</span>证件类型</label>
+                        <select name="idType"  class="form-control required">
+                            <option th:each="idType:${idTypes}"  th:text="${idType.typeDesc}" th:value="${idType.type}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><span class="form_required">*</span>证件编号</label>
+                        <input type="number" class="form-control" name="idNo" placeholder="证件编号" required>
+                    </div>
+                    <div class="form-group">
+                        <label>用户邮箱</label>
+                        <input type="email" class="form-control" name="userEmail" placeholder="用户邮箱">
+                    </div>
+                    <div class="form-group">
+                        <label><span class="form_required">*</span>用户手机</label>
+                        <input type="tel" class="form-control" name="userPhone" placeholder="用户手机" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary submit" id="updateConfirm">提交</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <form id="userDelForm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" class="form-control" name="id">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        确认框
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    确认删除该记录?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="userDelConfirm">确定</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade" id="modal-batchDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" class="form-control" name="id">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        确认框
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    确认删除已选择记录?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="userBathchDelConfirm">确定</button>
+                </div>
+            </div>
+        </div>
+</div>
+<!--用户增加-->
+<div id="modal-add" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+</div>
+<!--用户查看-->
+<div id="modal-see" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
