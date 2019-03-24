@@ -1,14 +1,11 @@
 package com.study.service;
 
-import org.apache.activemq.command.ActiveMQObjectMessage;
-import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 /**
@@ -19,15 +16,15 @@ import javax.jms.TextMessage;
 @Service
 public class ServiceConsumer {
     @Autowired
-    private JmsMessagingTemplate jmsMessagingTemplate;
+    private JmsTemplate jmsTemplate;
 
     public String recive(String destination){
         String messageStr = null;
         try {
-            TextMessage message = (TextMessage)jmsMessagingTemplate.receive(destination);
+            TextMessage message   =  (TextMessage) jmsTemplate.receive(destination);
             messageStr = message.getText();
 
-        } catch (JMSException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return  messageStr;

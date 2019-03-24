@@ -36,7 +36,7 @@ public class ControllerActiveMQ {
         logger.info("请求参数：{}", JSONObject.toJSONString(request));
         String message = serviceConsumer.recive(request.getDestination());
         model.addAttribute("message",message);
-        return "success";
+        return "activeMq/activeMqShow";
     }
 
     @RequestMapping("/activeMQ/sendHtml")

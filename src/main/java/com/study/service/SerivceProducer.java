@@ -3,6 +3,7 @@ package com.study.service;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,9 +14,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class SerivceProducer {
     @Autowired
-    private JmsMessagingTemplate jmsMessagingTemplate;
+    private JmsTemplate jmsTemplate;
+
 
     public void sendMessage(String destination ,final String message){
-        jmsMessagingTemplate.convertAndSend(new ActiveMQQueue(destination),message);
+        jmsTemplate.convertAndSend(new ActiveMQQueue(destination),message);
     }
 }

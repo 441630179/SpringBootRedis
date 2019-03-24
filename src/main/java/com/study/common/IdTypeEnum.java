@@ -5,6 +5,7 @@ package com.study.common;
  * @version 1.8
  * @date 2019/1/31 14:16
  */
+
 public enum IdTypeEnum {
     ID_TYPE01("01","身份证"),
     ID_TYPE02("02","护照"),
