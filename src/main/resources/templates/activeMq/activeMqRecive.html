@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>ActiveMq recive</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<form th:action="@{/activeMQ/recive}" method="post">
+    <table>
+        <tbody>
+            <tr>
+                <td>destination</td>
+                <td><input type="text" name="destination" id="destination" ></td>
+            </tr>
+            <tr>
+                <td><input type="submit" th:value="提交"></td>
+                <td><input type="reset" th:value="重置"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</form>
+</body>
+</html>

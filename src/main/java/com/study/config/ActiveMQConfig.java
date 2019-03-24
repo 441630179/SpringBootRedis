@@ -2,35 +2,39 @@ package com.study.config;
 
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.annotation.EnableJms;
+import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
+import org.springframework.jms.config.JmsListenerContainerFactory;
 
+import javax.jms.ConnectionFactory;
 import javax.jms.Queue;
 import javax.jms.Topic;
 
-@Configurable
+@Configuration
 public class ActiveMQConfig {
 
-    private String queneName;
-
-    private String topicName;
-
-    private String userName;
-
-    private String passWord;
-
-    private String brokeUrl;
-
-
+    // queue模式的ListenerContainer
     @Bean
-    public Queue queue(){
-
-        return new ActiveMQQueue(queneName);
+    public JmsListenerContainerFactory<?> jmsListenerContainerQueue(ConnectionFactory activeMQConnectionFactory) {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setConnectionFactory(activeMQConnectionFactory);
+        factory.setSessionTransacted(true);
+        factory.setCacheLevelName("CACHE_CONSUMER");
+        return factory;
     }
 
+
+    // topic模式的ListenerContainer
     @Bean
-    public Topic topic(){
-        return new ActiveMQTopic(topicName);
+    public JmsListenerContainerFactory<?> jmsListenerContainerTopic(ConnectionFactory activeMQConnectionFactory) {
+        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setPubSubDomain(true);
+        factory.setConnectionFactory(activeMQConnectionFactory);
+        factory.setCacheLevelName("CACHE_CONSUMER");
+        return factory;
+
     }
 
 

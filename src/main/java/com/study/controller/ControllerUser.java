@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +49,7 @@ public class ControllerUser {
             logger.error("新增用户失败，用户名："+user.getUserName());
             return "user/fail";
         }
+
         return "/user/userList";
     }
 
