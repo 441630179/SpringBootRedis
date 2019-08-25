@@ -1,9 +1,7 @@
 package com.study.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
 import javax.jms.TextMessage;
