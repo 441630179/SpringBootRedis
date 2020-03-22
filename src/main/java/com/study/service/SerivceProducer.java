@@ -15,7 +15,10 @@ public class SerivceProducer {
     @Autowired
     private JmsTemplate jmsTemplate;
 
-
+    /**
+     * @param destination
+     * @param message
+     */
     public void sendMessage(String destination ,final String message){
         jmsTemplate.convertAndSend(new ActiveMQQueue(destination),message);
     }
