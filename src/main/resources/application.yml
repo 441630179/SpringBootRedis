@@ -28,9 +28,9 @@ spring:
   #druid数据库连池接参数
   datasource:
     druid:
-      url: jdbc:mysql://127.0.0.1:3306/study?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
-      username: root
-      password: Tpw923223***
+      url: jdbc:mysql://rm-2ze5e0903208sbs4i7o.mysql.rds.aliyuncs.com:3306/study?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: study
+      password: Tpw923223!
       driver-class-name: com.mysql.jdbc.Driver
       initial-size: 5
       max-active: 20
