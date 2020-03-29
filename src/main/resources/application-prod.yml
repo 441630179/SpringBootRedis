@@ -1,0 +1,24 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://rm-2ze5e0903208sbs4i7o.mysql.rds.aliyuncs.com:3306/study?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: study
+      password: Tpw923223!
+      driver-class-name: com.mysql.jdbc.Driver
+      initial-size: 5
+      max-active: 20
+      max-wait: 60000
+      min-idle: 5
+      time-between-eviction-runs-millis: 60000
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      validation-query: select * from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      max-pool-prepared-statement-per-connection-size: 20
+      pool-prepared-statements: true
+      filters: stat
+    type: com.alibaba.druid.pool.DruidDataSource

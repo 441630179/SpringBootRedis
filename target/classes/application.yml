@@ -1,56 +1,10 @@
 spring:
-  redis:
-    host: 127.0.0.1
-    database: 0
-    port: 6379
-    jedis:
-      pool:
-        max-active: 8
-        max-idle: 8
-        max-wait: -1ms
-        min-idle: 0
-
  # thymeleaf 参数
   thymeleaf:
     cache: false
 
- #activeMq参数
-  activemq:
-    user: admin
-    password: admin
-    broker-url: tcp://127.0.0.1:61616
-    pool:
-      max-connections: 10
-      enabled: true
-    packages:
-      trust-all: true
-
-  #druid数据库连池接参数
-  datasource:
-    druid:
-      url: jdbc:mysql://rm-2ze5e0903208sbs4i7o.mysql.rds.aliyuncs.com:3306/study?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
-      username: study
-      password: Tpw923223!
-      driver-class-name: com.mysql.jdbc.Driver
-      initial-size: 5
-      max-active: 20
-      max-wait: 60000
-      min-idle: 5
-      time-between-eviction-runs-millis: 60000
-      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-      validation-query: select * from dual
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-      max-pool-prepared-statement-per-connection-size: 20
-      pool-prepared-statements: true
-      filters: stat
-    type: com.alibaba.druid.pool.DruidDataSource
-
-server:
-  port: 8081
-  servlet:
-    context-path: /SpringBoot
+  profiles:
+    active: dev
 
 #logback参数
 logging:
@@ -62,3 +16,6 @@ pagehelper:
   params: countSql
   reasonable: true
   support-methods-arguments: true
+server:
+  servlet:
+    context-path: /SpringBoot
