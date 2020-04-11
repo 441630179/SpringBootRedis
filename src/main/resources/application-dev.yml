@@ -22,3 +22,6 @@ spring:
       pool-prepared-statements: true
       filters: stat
     type: com.alibaba.druid.pool.DruidDataSource
+
+logging:
+  path: /Users/tanpengwei/Documents/project/SpringBoot/logs

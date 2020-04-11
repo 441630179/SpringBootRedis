@@ -4,7 +4,7 @@ spring:
     cache: false
 
   profiles:
-    active: dev
+    active: prod
 
 #logback参数
 logging:
