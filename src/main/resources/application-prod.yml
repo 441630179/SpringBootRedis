@@ -24,4 +24,4 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
 
 logging:
-  path: logs
+  path: $HOME/logs
