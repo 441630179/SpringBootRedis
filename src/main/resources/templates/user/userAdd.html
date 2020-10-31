@@ -10,7 +10,7 @@
             autoclose: true,
             minView: "month",
             language:"zh-CN",
-            startDate:new Date()
+            endDate:new Date()
         }).on('hide', function(event) {
             event.preventDefault();
             event.stopPropagation();
@@ -53,11 +53,13 @@
             success: function (data) {
                 var returnCode = data.returnCode;
                 var returnMsg = data.returnMsg;
-                if (returnCode = "000000") {
-                    $.growl.notice({title: "提示", message: "新增成功!" });
+                if (returnCode == "000000") {
+                    $.growl.notice({title: "提示", message: returnMsg });
                     $("#modal-add").modal("hide");
                     $("#userAddForm :input").val('');
                     $('#userTable').bootstrapTable('refresh')
+                }else{
+                    $.growl.error({title: "失败", message: returnMsg });
                 }
             },
             error: function (err) {
@@ -71,6 +73,69 @@
         });
     });
 
+    $("#provId").change(function () {
+        var param = $("#provId").val();
+        $.ajax({
+            type: "post",
+            url: "/SpringBoot/local/cityList",
+            data: {'provId':param},
+            success: function (data) {
+                var returnCode = data.returnCode;
+                var returnMsg = data.returnMsg;
+                if (returnCode == "000000") {
+                    var cityMap = data.cityMap;
+                    $("#cityId option").remove();
+                    for (var p in cityMap){
+                        $("#cityId").append("<option value="+p+">"+cityMap[p]+"</option>");
+                    }
+                }
+            },
+            error: function (err) {
+                if (data.status == '405') {
+
+                    window.location.reload();
+                }
+                $.growl.error({title: "失败", message: "网络异常，请稍后再试!" });
+            }
+
+        });
+    });
+
+
+    $("#cityId").click(function () {
+        var param = $("#cityId").find("option:selected").val();
+        $.ajax({
+            type: "post",
+            url: "/SpringBoot/local/areaList",
+            data: {'cityId':param},
+            success: function (data) {
+                var returnCode = data.returnCode;
+                var returnMsg = data.returnMsg;
+                if (returnCode == "000000") {
+                    var areaMap = data.areaMap;
+                    $("#areaId option").remove();
+                    for (var p in areaMap){
+                        $("#areaId").append("<option value="+p+">"+areaMap[p]+"</option>");
+                    }
+                }else{
+                    $.growl.error({title: "失败", message: returnMsg });
+                }
+            },
+            error: function (err) {
+                if (data.status == '405') {
+
+                    window.location.reload();
+                }
+                $.growl.error({title: "失败", message: "网络异常，请稍后再试!" });
+            }
+
+        });
+    });
+
+
+
+
+
 </script>
 <form id="userAddForm">
 <div class="modal-body">
@@ -81,7 +146,7 @@
     </div>
     <div class="form-group">
         <label><span class="form_required">*</span>用户名称：</label>
-        <input type="text" class="form-control" name="userName" required/>
+        <input type="text" class="form-control" name="userName" />
 
     </div>
 
@@ -100,8 +165,32 @@
     </div>
 
 
+
+    <div class="form-group col-md-4">
+        <label><span class="form_required">*</span>省：</label>
+        <select name="provId" id="provId" class="form-control required">
+
+        </select>
+
+    </div>
+
+    <div class="form-group col-md-4">
+        <label><span class="form_required">*</span>市：</label>
+        <select name="cityId" id="cityId" class="form-control required">
+        </select>
+
+    </div>
+
+    <div class="form-group col-md-4">
+        <label><span class="form_required">*</span>区：</label>
+        <select name="areaId" id="areaId" class="form-control required">
+        </select>
+
+    </div>
+
+
     <div class="form-group">
-        <label><span class="form_required">*</span>证件编码：</label>
+        <label><span class="form_required">*</span>证件号码：</label>
         <input type="text" class="form-control" name="idNo" required/>
 
     </div>

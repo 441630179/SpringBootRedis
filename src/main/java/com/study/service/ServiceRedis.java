@@ -82,4 +82,8 @@ public class ServiceRedis {
     public void opsForList(String key,String value){
         template.opsForList().rightPush(key, value);
     }
+
+    public  Map<Object,Object> getHashValue(String hash){
+        return template.opsForHash().entries(hash);
+    }
 }

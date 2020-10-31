@@ -14,7 +14,7 @@
     </springProfile>
 
     <springProfile name="prod">
-        <property name="additivity"  value="false" />
+        <property name="additivity"  value="true" />
     </springProfile>
 
 

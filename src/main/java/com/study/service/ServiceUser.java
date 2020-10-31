@@ -1,6 +1,5 @@
 package com.study.service;
 
-import com.study.mapper.UserMapper;
 import com.study.mapper.impl.UserMapperImpl;
 import com.study.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ServiceUser {
+public class ServiceUser implements ServiceUpload<List<User>> {
     @Autowired
     private UserMapperImpl userMapperImpl;
 
@@ -36,5 +35,12 @@ public class ServiceUser {
     public int userbatchDel(Long[]  ids){
         int count = userMapperImpl.batchDel(ids);
         return count;
+    }
+
+
+
+    @Override
+    public int saveData(List<User> users) {
+        return  userMapperImpl.insertList(users);
     }
 }

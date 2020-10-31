@@ -19,3 +19,10 @@ pagehelper:
 server:
   servlet:
     context-path: /SpringBoot
+
+
+
+student:
+    name : tpw
+    age: 20
+    id: 20201028

@@ -23,5 +23,20 @@ spring:
       filters: stat
     type: com.alibaba.druid.pool.DruidDataSource
 
+  redis:
+    host: 182.92.236.76
+    password: Tpw923223
+
+  thymeleaf:
+    cache: false
+
+
 logging:
   path: /tmp/logs
+
+
+rocketmq:
+  name-server: 139.196.8.163:9876
+  producer:
+    group: ROCKET_GROUP
+

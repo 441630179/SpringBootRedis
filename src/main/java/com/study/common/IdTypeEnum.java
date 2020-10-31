@@ -1,5 +1,7 @@
 package com.study.common;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author pengwei.tan
  * @version 1.8
@@ -10,7 +12,7 @@ public enum IdTypeEnum {
     ID_TYPE01("01","身份证"),
     ID_TYPE02("02","护照"),
     ID_TYPE03("03","港澳通行证"),
-    ID_TYPE04("03","其他");
+    ID_TYPE04("04","其他");
 
 
     private String type;
@@ -35,4 +37,15 @@ public enum IdTypeEnum {
 
     public void setTypeDesc(String typeDesc) {
         this.typeDesc = typeDesc;
-    }}
+    }
+
+    public static String getDescByType(String type){
+        String desc =null;
+        for (IdTypeEnum idTypeEnum : IdTypeEnum.values()) {
+            if(StringUtils.equals(type,idTypeEnum.getType())){
+                desc = idTypeEnum.getTypeDesc();
+            }
+        }
+        return desc;
+    }
+}

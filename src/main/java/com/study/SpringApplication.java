@@ -13,6 +13,4 @@ public class SpringApplication {
         org.springframework.boot.SpringApplication.run(SpringApplication.class,args);
     }
 
-
-
 }

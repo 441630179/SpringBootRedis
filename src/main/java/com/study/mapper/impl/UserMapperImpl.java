@@ -14,4 +14,5 @@ public interface UserMapperImpl extends UserMapper {
 
     int batchDel(Long[] ids);
 
+    int insertList(List<User> users);
 }

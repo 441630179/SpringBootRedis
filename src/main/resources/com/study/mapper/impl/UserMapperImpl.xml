@@ -45,4 +45,20 @@
     </foreach>
   </delete>
 
+  <insert id="insertList" parameterType="java.util.List">
+    insert into T_User(user_name,user_password,id_type,id_no,user_email,user_phone,beg_date,end_date) values
+    <foreach  item="user" collection="list"  index="i" separator=",">
+      (
+        #{user.userName},
+        #{user.userPassword},
+        #{user.idType},
+        #{user.idNo},
+        #{user.userEmail},
+        #{user.userPhone},
+        #{user.begDate},
+        #{user.endDate}
+      )
+    </foreach>
+  </insert>
+
 </mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.mapper.impl.LocalMapperImpl" >
+  <resultMap id="BaseResultMap" type="com.study.po.Local">
+    <id column="local_id" jdbcType="VARCHAR" property="localId" />
+    <result column="prov_name" jdbcType="VARCHAR" property="provName" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="area_Name" jdbcType="VARCHAR" property="areaName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    local_id, prov_name, city_name, area_Name
+  </sql>
+
+  <select id="queryProv" resultMap="BaseResultMap"  parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_local
+    where local_id like '__0000'
+  </select>
+
+  <select id="queryCity" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from t_local
+    where local_id  like  '${provId}__00'
+  </select>
+
+  <select id="queryArea" resultMap="BaseResultMap" parameterType="java.lang.String"  >
+    select
+    <include refid="Base_Column_List" />
+    from t_local
+    where local_id  like '${cityId}%'
+  </select>
+
+
+</mapper>
