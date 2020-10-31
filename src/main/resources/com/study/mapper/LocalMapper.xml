@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mapper.LocalMapper">
+  <resultMap id="BaseResultMap" type="com.study.po.Local">
+    <id column="local_id" jdbcType="VARCHAR" property="localId" />
+    <result column="prov_name" jdbcType="VARCHAR" property="provName" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="area_Name" jdbcType="VARCHAR" property="areaName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    local_id, prov_name, city_name, area_Name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_local
+    where local_id = #{localId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_local
+    where local_id = #{localId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.study.po.Local">
+    insert into t_local (local_id, prov_name, city_name, 
+      area_Name)
+    values (#{localId,jdbcType=VARCHAR}, #{provName,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, 
+      #{areaName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.study.po.Local">
+    insert into t_local
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="localId != null">
+        local_id,
+      </if>
+      <if test="provName != null">
+        prov_name,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="areaName != null">
+        area_Name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="localId != null">
+        #{localId,jdbcType=VARCHAR},
+      </if>
+      <if test="provName != null">
+        #{provName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.study.po.Local">
+    update t_local
+    <set>
+      <if test="provName != null">
+        prov_name = #{provName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        area_Name = #{areaName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where local_id = #{localId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.study.po.Local">
+    update t_local
+    set prov_name = #{provName,jdbcType=VARCHAR},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      area_Name = #{areaName,jdbcType=VARCHAR}
+    where local_id = #{localId,jdbcType=VARCHAR}
+  </update>
+</mapper>
