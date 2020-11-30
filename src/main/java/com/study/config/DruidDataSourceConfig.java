@@ -19,14 +19,15 @@ import java.util.Map;
 @Configuration
 public class DruidDataSourceConfig {
     @Bean
-    public ServletRegistrationBean statViewServlet() {
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
-        Map<String, String> initParams = new HashMap<>();
-        initParams.put("loginUsername", "admin");
-        initParams.put("loginPassword", "admin");
-        initParams.put("allow", "");//默认就是允许所有访问
-        initParams.put("deny", "");
-        servletRegistrationBean.setInitParameters(initParams);
+    public ServletRegistrationBean<StatViewServlet> statViewServlet() {
+        ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean();
+        servletRegistrationBean.setServlet(new StatViewServlet());
+        servletRegistrationBean.addUrlMappings("/druid/*");
+        servletRegistrationBean.addInitParameter("loginUsername", "admin");
+        servletRegistrationBean.addInitParameter("loginPassword", "admin");
+        //默认就是允许所有访问
+        servletRegistrationBean.addInitParameter("allow", "");
+        servletRegistrationBean.addInitParameter("deny", "");
         return servletRegistrationBean;
     }
 

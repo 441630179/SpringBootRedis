@@ -3651,7 +3651,7 @@
                 // A fallback to window.onload, that will always work
                 window.attachEvent( "onload", completed );
 
-                // If IE and not a frame
+                // If IE and not a fragments
                 // continually check to see if the document is ready
                 var top = false;
 
@@ -6698,7 +6698,7 @@
 
             // Support: IE<=11+, Firefox<=30+ (#15098, #14150)
             // IE throws on elements created in popups
-            // FF meanwhile throws on frame elements through "defaultView.getComputedStyle"
+            // FF meanwhile throws on fragments elements through "defaultView.getComputedStyle"
             var view = elem.ownerDocument.defaultView;
 
             if ( !view || !view.opener ) {
@@ -7788,7 +7788,7 @@
                         animation.tweens[ index ].run( 1 );
                     }
 
-                    // resolve when we played the last frame
+                    // resolve when we played the last fragments
                     // otherwise, reject
                     if ( gotoEnd ) {
                         deferred.notifyWith( elem, [ animation, 1, 0 ] );

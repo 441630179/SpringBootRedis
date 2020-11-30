@@ -30,6 +30,9 @@ spring:
   thymeleaf:
     cache: false
 
+  cache:
+    type: redis
+
 
 logging:
   path: /tmp/logs
@@ -39,4 +42,6 @@ rocketmq:
   name-server: 139.196.8.163:9876
   producer:
     group: ROCKET_GROUP
+
+
 

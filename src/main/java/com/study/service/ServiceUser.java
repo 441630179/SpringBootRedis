@@ -3,6 +3,7 @@ package com.study.service;
 import com.study.mapper.impl.UserMapperImpl;
 import com.study.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 public class ServiceUser implements ServiceUpload<List<User>> {
     @Autowired
     private UserMapperImpl userMapperImpl;
+
 
     public int addUser(User user){
         int count =userMapperImpl.insertSelective(user);

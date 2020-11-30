@@ -67,6 +67,6 @@ public class StaticInitService implements ApplicationRunner {
 //            serviceRedis.opsHashPutAll(StringUtils.rightPad(cityId,4,"0")+"_area",areaMap);
 //            areaMap.clear();
 //        }
-//
+
     }
 }

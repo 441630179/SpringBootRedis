@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <link rel="stylesheet" th:href="@{/css/layui/layui.css}">
+    <script type="application/javascript" th:src="@{/js/layui/layui.js}"></script>
+    <script type="application/javascript" th:src="@{/js/layui/lay/modules/element.js}"></script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap-table.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap-editable.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap-datetimepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery/jquery.growl.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script th:src="@{/js/jquery/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/jquery/jquery.validate.js}"></script>
+    <script th:src="@{/js/jquery/messages_zh.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap.js}"></script>
+    <!--bootstraptable-->
+    <script th:src="@{/js/bootstrap/bootstrap-table.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-table-zh-CN.js}"></script>
+    <!--日期时间控件-->
+    <script th:src="@{/js/bootstrap/bootstrap-datetimepicker.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-datetimepicker.zh-CN.js}"></script>
+
+    <!--bootstraptable行类编辑-->
+    <script th:src="@{/js/bootstrap/bootstrap-editable.min.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-table-editable.min.js}"></script>
+    <!--bootstrap导出-->
+    <script th:src="@{/js/export/xlsx.core.min.js}"></script>
+    <script th:src="@{/js/export/FileSaver.min.js}"></script>
+    <script th:src="@{/js/export/tableExport.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-table-export.min.js}"></script>
+    <!--提示-->
+    <script th:src="@{/js/jquery/jquery.growl.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+    <!--自动补全 -->
+    <script th:src="@{/js/bootstrap/bootstrap3-typeahead.min.js}"></script>
+
+    <script th:src="@{/js/common/local.js}"></script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/lefter :: lefter"></div>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding:5px;" layout:fragment="content"></div>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+<script>
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>
+</body>
+</html>

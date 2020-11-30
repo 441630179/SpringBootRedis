@@ -48,4 +48,14 @@ public enum IdTypeEnum {
         }
         return desc;
     }
+
+    public static String getTypeByDesc(String typeDesc){
+        String type =null;
+        for (IdTypeEnum idTypeEnum : IdTypeEnum.values()) {
+            if(StringUtils.equals(typeDesc,idTypeEnum.getTypeDesc())){
+                type = idTypeEnum.getType();
+            }
+        }
+        return type;
+    }
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @ApiModel
-public class UserRequest {
+public class UserRequest{
     @ApiModelProperty(value = "用户编号",required = true)
     private Long id;
 
